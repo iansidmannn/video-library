@@ -253,14 +253,14 @@ function render(){
       '<div class="views-big">'+fmt(v.views)+'</div>'+
       '<div class="views-label">views</div>'+
       '<div class="user">@'+v.uploader+'</div>'+
-      '<a class="dl-btn" href="'+v.file+'" download onclick="event.stopPropagation()">'+dlSvg+'</a>'+
+      '<a class="dl-btn" href="videos/'+v.file+'" download onclick="event.stopPropagation()">'+dlSvg+'</a>'+
     '</div>';
   }).join('');
 }
 
 function openSheet(i){
   const v=V[i];
-  document.getElementById('sheetVideo').src=v.file;
+  document.getElementById('sheetVideo').src='videos/'+v.file;
   document.getElementById('sheetUser').textContent='@'+v.uploader;
   document.getElementById('sheetStats').innerHTML=
     '<div class="stat-box hero"><span class="n">'+fmt(v.views)+'</span><span class="l">Total Views</span></div>'+
@@ -270,7 +270,7 @@ function openSheet(i){
     '<div class="stat-box"><span class="n">'+dur(v.duration)+'</span><span class="l">Duration</span></div>';
   document.getElementById('sheetDesc').textContent=v.description||'';
   document.getElementById('sheetBtns').innerHTML=
-    '<a class="dl-link" href="'+v.file+'" download>Download</a>'+
+    '<a class="dl-link" href="videos/'+v.file+'" download>Download</a>'+
     '<a class="tt-link" href="'+v.url+'" target="_blank">TikTok</a>';
   document.getElementById('sheetBg').classList.add('open');
   document.body.classList.add('modal-open');
