@@ -27,6 +27,16 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .sort-pill{padding:6px 13px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
 .sort-pill.active{background:var(--green-soft);color:var(--green);border-color:var(--green-dim)}
 .sort-pill .arr{font-size:9px;margin-left:2px}
+/* NOTES SECTION */
+.notes{max-width:1400px;margin:0 auto;padding:20px 12px 8px}
+.notes-title{font-size:16px;font-weight:800;margin-bottom:12px;color:var(--text);text-align:center}
+.notes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:700px){.notes-grid{grid-template-columns:repeat(4,1fr);gap:12px}.notes{padding:24px 20px 10px}}
+.note-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 12px}
+.note-icon{font-size:20px;font-weight:900;color:var(--green);margin-bottom:6px}
+.note-text{font-size:12px;line-height:1.5;color:var(--muted)}
+.note-text strong{color:var(--text);font-weight:700}
+
 .showing{text-align:center;color:var(--muted);font-size:12px;padding:10px 0 4px}
 
 /* GRID */
@@ -106,6 +116,29 @@ body.modal-open{overflow:hidden}
   <div class="toggle-row" id="toggleRow"></div>
   <div class="sort-row" id="sortRow"></div>
 </div>
+
+<div class="notes">
+  <div class="notes-title">What Makes This Trend Go Viral</div>
+  <div class="notes-grid">
+    <div class="note-card">
+      <div class="note-icon">~40s</div>
+      <div class="note-text"><strong>Keep it short.</strong> Best performing videos are around 40 seconds. Get in, hit the moment, get out.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-icon">@</div>
+      <div class="note-text"><strong>Name who it's on.</strong> Mom, dad, son, wife, girlfriend — calling out the person makes it personal and shareable.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-icon">!!</div>
+      <div class="note-text"><strong>High emotion moments.</strong> The screenshot moment is everything. Anger, fear, confusion, shock — these are the dominant emotions that drive shares.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-icon">&#x1f4f1;</div>
+      <div class="note-text"><strong>Screenshot-worthy.</strong> People pause and screenshot these reactions. The bigger the reaction, the more it spreads.</div>
+    </div>
+  </div>
+</div>
+
 <div class="showing" id="showing"></div>
 <div class="grid" id="grid"></div>
 
