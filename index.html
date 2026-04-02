@@ -27,15 +27,27 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .sort-pill{padding:6px 13px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
 .sort-pill.active{background:var(--green-soft);color:var(--green);border-color:var(--green-dim)}
 .sort-pill .arr{font-size:9px;margin-left:2px}
-/* NOTES SECTION */
-.notes{max-width:1400px;margin:0 auto;padding:20px 12px 8px}
-.notes-title{font-size:16px;font-weight:800;margin-bottom:12px;color:var(--text);text-align:center}
-.notes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-@media(min-width:700px){.notes-grid{grid-template-columns:repeat(4,1fr);gap:12px}.notes{padding:24px 20px 10px}}
-.note-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 12px}
-.note-icon{font-size:20px;font-weight:900;color:var(--green);margin-bottom:6px}
-.note-text{font-size:12px;line-height:1.5;color:var(--muted)}
-.note-text strong{color:var(--text);font-weight:700}
+/* NOTES PAGE */
+.notes-page{display:none;max-width:700px;margin:0 auto;padding:24px 16px 100px}
+.notes-page.active{display:block}
+.notes-title{font-size:20px;font-weight:800;margin-bottom:20px;color:var(--text)}
+.note-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px}
+.note-card-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.note-icon{font-size:18px;font-weight:900;color:var(--green);background:var(--green-soft);width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.note-label{font-size:14px;font-weight:700;color:var(--text)}
+.note-text{font-size:13px;line-height:1.6;color:var(--muted);padding-left:48px}
+
+/* IMAGE GRID */
+.img-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.img-grid img{width:100%;border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:transform .2s}
+.img-grid img:hover{transform:scale(1.02)}
+.img-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);cursor:pointer}
+.img-lightbox.open{display:flex}
+.img-lightbox img{max-width:90%;max-height:85vh;border-radius:12px}
+
+/* VIDEOS PAGE */
+.videos-page{display:none}
+.videos-page.active{display:block}
 
 .showing{text-align:center;color:var(--muted);font-size:12px;padding:10px 0 4px}
 
@@ -117,30 +129,39 @@ body.modal-open{overflow:hidden}
   <div class="sort-row" id="sortRow"></div>
 </div>
 
-<div class="notes">
+<div class="notes-page" id="notesPage">
   <div class="notes-title">What Makes This Trend Go Viral</div>
-  <div class="notes-grid">
-    <div class="note-card">
-      <div class="note-icon">~40s</div>
-      <div class="note-text"><strong>Keep it short.</strong> Best performing videos are around 40 seconds. Get in, hit the moment, get out.</div>
+  <div class="note-card">
+    <div class="note-card-head"><div class="note-icon" style="font-size:13px">40s+</div><div class="note-label">Over 40 seconds</div></div>
+    <div class="note-text">Best performing videos are over 40 seconds.</div>
+  </div>
+  <div class="note-card">
+    <div class="note-card-head"><div class="note-icon">@</div><div class="note-label">Name who it's on</div></div>
+    <div class="note-text">Mom, dad, son, wife, girlfriend — calling out the person makes it relatable and makes the viewer imagine doing it to theirs.</div>
+  </div>
+  <div class="note-card">
+    <div class="note-card-head"><div class="note-icon">!!</div><div class="note-label">Pick the right person</div></div>
+    <div class="note-text">Anger, fear, confusion, shock — videos that lead with these emotions have the funniest moments and the most views. It's all about picking the right person to prank.</div>
+  </div>
+  <div class="note-card">
+    <div class="note-card-head"><div class="note-icon">&#x1f4f1;</div><div class="note-label">Screenshot-worthy</div></div>
+    <div class="note-text">People love commenting and relating about the reactions in the videos. Try to create the moments they talk about.</div>
+    <div class="img-grid" style="margin-top:12px;padding-left:0">
+      <img src="images/IMG_9199.PNG" loading="lazy" onclick="openImg(this.src)">
+      <img src="images/IMG_9201.PNG" loading="lazy" onclick="openImg(this.src)">
+      <img src="images/IMG_9202.PNG" loading="lazy" onclick="openImg(this.src)">
+      <img src="images/IMG_9203.PNG" loading="lazy" onclick="openImg(this.src)">
     </div>
-    <div class="note-card">
-      <div class="note-icon">@</div>
-      <div class="note-text"><strong>Name who it's on.</strong> Mom, dad, son, wife, girlfriend — calling out the person makes it personal and shareable.</div>
-    </div>
-    <div class="note-card">
-      <div class="note-icon">!!</div>
-      <div class="note-text"><strong>High emotion moments.</strong> The screenshot moment is everything. Anger, fear, confusion, shock — these are the dominant emotions that drive shares.</div>
-    </div>
-    <div class="note-card">
-      <div class="note-icon">&#x1f4f1;</div>
-      <div class="note-text"><strong>Screenshot-worthy.</strong> People pause and screenshot these reactions. The bigger the reaction, the more it spreads.</div>
-    </div>
+  </div>
+  <div class="img-lightbox" id="imgLightbox" onclick="this.classList.remove('open')">
+    <img id="imgLightboxSrc">
   </div>
 </div>
 
-<div class="showing" id="showing"></div>
-<div class="grid" id="grid"></div>
+<div class="videos-page active" id="videosPage">
+  <div class="showing" id="showing"></div>
+  <div class="grid" id="grid"></div>
+</div>
 
 <div class="sheet-bg" id="sheetBg">
   <div class="sheet" id="sheet">
@@ -161,22 +182,40 @@ const V = [{"id": "7589053163232054558", "uploader": "nimrashamid", "views": 574
 const fmt=n=>{if(n>=1e6)return(n/1e6).toFixed(1).replace(/\.0$/,'')+'M';if(n>=1e3)return(n/1e3).toFixed(1).replace(/\.0$/,'')+'K';return n+''};
 const dur=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 
-const cats=['Pranks','Compilations'];
+const tabs=['Pranks','Compilations','Viral Guide'];
 const sorts=[{k:'views',l:'Views'},{k:'likes',l:'Likes'},{k:'shares',l:'Shares'},{k:'comments',l:'Comments'},{k:'duration',l:'Length'}];
 let curCat='Pranks',curSort='views',curDir=-1;
 
-// Category counts
 const pCnt=V.filter(v=>v.category==='Pranks').length;
 const cCnt=V.filter(v=>v.category==='Compilations').length;
 
-// Toggle buttons
 const tRow=document.getElementById('toggleRow');
-cats.forEach(c=>{
+const sortRow=document.getElementById('sortRow');
+const videosPage=document.getElementById('videosPage');
+const notesPage=document.getElementById('notesPage');
+
+function switchTab(tab){
+  tRow.querySelectorAll('.toggle-btn').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  if(tab==='Viral Guide'){
+    videosPage.classList.remove('active');
+    notesPage.classList.add('active');
+    sortRow.style.display='none';
+  } else {
+    notesPage.classList.remove('active');
+    videosPage.classList.add('active');
+    sortRow.style.display='';
+    curCat=tab;
+    render();
+  }
+}
+
+tabs.forEach(c=>{
   const b=document.createElement('button');
   b.className='toggle-btn'+(c==='Pranks'?' active':'');
-  const cnt=c==='Pranks'?pCnt:cCnt;
-  b.innerHTML=c+'<span class="cnt">'+cnt+'</span>';
-  b.onclick=()=>{curCat=c;tRow.querySelectorAll('.toggle-btn').forEach(t=>t.classList.remove('active'));b.classList.add('active');render()};
+  if(c==='Viral Guide') b.innerHTML=c;
+  else { const cnt=c==='Pranks'?pCnt:cCnt; b.innerHTML=c+'<span class="cnt">'+cnt+'</span>'; }
+  b.onclick=()=>switchTab(c);
   tRow.appendChild(b);
 });
 
@@ -244,6 +283,8 @@ function closeSheet(){
 }
 document.getElementById('sheetBg').onclick=e=>{if(e.target===e.currentTarget)closeSheet()};
 document.onkeydown=e=>{if(e.key==='Escape')closeSheet()};
+
+function openImg(src){document.getElementById('imgLightboxSrc').src=src;document.getElementById('imgLightbox').classList.add('open')}
 
 render();
 </script>
