@@ -39,6 +39,11 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-s
 .notes-page{display:none;max-width:700px;margin:0 auto;padding:24px 16px 100px}
 .notes-page.active{display:block}
 .notes-title{font-size:20px;font-weight:800;margin-bottom:20px;color:var(--text)}
+.guide-subtabs{display:flex;gap:8px;margin-bottom:20px}
+.guide-subtab{flex:1;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all 0.15s}
+.guide-subtab.active{background:var(--green);color:#000;border-color:var(--green)}
+.guide-panel{display:none}
+.guide-panel.active{display:block}
 .note-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px}
 .note-card-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .note-icon{font-size:18px;font-weight:900;color:var(--green);background:var(--green-soft);width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -141,27 +146,39 @@ body.modal-open{overflow:hidden}
 
 <div class="notes-page" id="notesPage">
   <div class="notes-title">What Makes This Trend Go Viral</div>
-  <div class="note-card">
-    <div class="note-card-head"><div class="note-icon" style="font-size:13px">40s+</div><div class="note-label">Over 40 seconds</div></div>
-    <div class="note-text">Best performing videos are over 40 seconds.</div>
+  <div class="guide-subtabs">
+    <button class="guide-subtab active" onclick="switchGuide('pranks',this)">Individual Pranks</button>
+    <button class="guide-subtab" onclick="switchGuide('compilations',this)">Compilations</button>
   </div>
-  <div class="note-card">
-    <div class="note-card-head"><div class="note-icon">@</div><div class="note-label">Name who it's on</div></div>
-    <div class="note-text">Mom, dad, son, wife, girlfriend — calling out the person makes it relatable and makes the viewer imagine doing it to their own.</div>
-    <img src="images/caption_example.png" style="margin-top:12px;width:60%;border-radius:8px;border:1px solid var(--border);cursor:pointer" onclick="openImg(this.src)">
+  <div class="guide-panel active" id="guidePranks">
+    <div class="note-card">
+      <div class="note-card-head"><div class="note-icon" style="font-size:13px">40s+</div><div class="note-label">Over 40 seconds</div></div>
+      <div class="note-text">Best performing videos are over 40 seconds.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-head"><div class="note-icon">@</div><div class="note-label">Name who it's on</div></div>
+      <div class="note-text">Mom, dad, son, wife, girlfriend — calling out the person makes it relatable and makes the viewer imagine doing it to their own.</div>
+      <img src="images/caption_example.png" style="margin-top:12px;width:60%;border-radius:8px;border:1px solid var(--border);cursor:pointer" onclick="openImg(this.src)">
+    </div>
+    <div class="note-card">
+      <div class="note-card-head"><div class="note-icon">!!</div><div class="note-label">Pick the right person</div></div>
+      <div class="note-text">Videos that lead with these emotions (anger, fear, confusion, shock) have the funniest moments and the most views. It's best to prank someone you think might react that way.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-head"><div class="note-icon">&#x1f4f1;</div><div class="note-label">Screenshot-worthy</div></div>
+      <div class="note-text">People love commenting about the reactions. Create the moments they talk about.</div>
+      <div class="img-grid" style="margin-top:12px;padding-left:0">
+        <img src="images/IMG_9202.PNG" loading="lazy" onclick="openImg(this.src)">
+        <img src="images/IMG_9203.PNG" loading="lazy" onclick="openImg(this.src)">
+        <img src="images/IMG_9199.PNG" loading="lazy" onclick="openImg(this.src)">
+        <img src="images/IMG_9201.PNG" loading="lazy" onclick="openImg(this.src)">
+      </div>
+    </div>
   </div>
-  <div class="note-card">
-    <div class="note-card-head"><div class="note-icon">!!</div><div class="note-label">Pick the right person</div></div>
-    <div class="note-text">Videos that lead with these emotions (anger, fear, confusion, shock) have the funniest moments and the most views. It's best to prank someone you think might react that way.</div>
-  </div>
-  <div class="note-card">
-    <div class="note-card-head"><div class="note-icon">&#x1f4f1;</div><div class="note-label">Screenshot-worthy</div></div>
-    <div class="note-text">People love commenting about the reactions. Create the moments they talk about.</div>
-    <div class="img-grid" style="margin-top:12px;padding-left:0">
-      <img src="images/IMG_9202.PNG" loading="lazy" onclick="openImg(this.src)">
-      <img src="images/IMG_9203.PNG" loading="lazy" onclick="openImg(this.src)">
-      <img src="images/IMG_9199.PNG" loading="lazy" onclick="openImg(this.src)">
-      <img src="images/IMG_9201.PNG" loading="lazy" onclick="openImg(this.src)">
+  <div class="guide-panel" id="guideCompilations">
+    <div class="note-card">
+      <div class="note-card-head"><div class="note-icon">&#x1f3ac;</div><div class="note-label">Coming soon</div></div>
+      <div class="note-text">Compilation tips coming soon.</div>
     </div>
   </div>
   <div class="img-lightbox" id="imgLightbox" onclick="this.classList.remove('open')">
@@ -297,6 +314,12 @@ document.getElementById('sheetBg').onclick=e=>{if(e.target===e.currentTarget)clo
 document.onkeydown=e=>{if(e.key==='Escape')closeSheet()};
 
 function openImg(src){document.getElementById('imgLightboxSrc').src=src;document.getElementById('imgLightbox').classList.add('open')}
+function switchGuide(panel,btn){
+  document.querySelectorAll('.guide-subtab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.guide-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panel==='pranks'?'guidePranks':'guideCompilations').classList.add('active');
+}
 
 render();
 </script>
