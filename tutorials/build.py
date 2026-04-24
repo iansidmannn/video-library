@@ -57,6 +57,10 @@ OURS_EXTRAS = [
     'https://www.tiktok.com/@trypinatafarms/video/7613861564143176990',
 ]
 
+SKIP_IDS = {
+    '7595308593839131935',  # wrong tutorial, 6s clip
+}
+
 def load_ours_urls():
     urls = []
     if os.path.exists(OURS_DOC):
@@ -70,11 +74,11 @@ def load_ours_urls():
         else:
             section = html
         ids = re.findall(r'tiktok\.com/@trypinatafarms/video/(\d+)', section)
-        urls = [f'https://www.tiktok.com/@trypinatafarms/video/{i}' for i in dict.fromkeys(ids)]
+        urls = [f'https://www.tiktok.com/@trypinatafarms/video/{i}' for i in dict.fromkeys(ids) if i not in SKIP_IDS]
     seen = set(re.search(r'/video/(\d+)', u).group(1) for u in urls)
     for u in OURS_EXTRAS:
         m = re.search(r'/video/(\d+)', u)
-        if m and m.group(1) not in seen:
+        if m and m.group(1) not in seen and m.group(1) not in SKIP_IDS:
             urls.append(u); seen.add(m.group(1))
     return urls
 
@@ -247,6 +251,10 @@ h1 span{color:#1DB954}
 .card:hover .play{background:#1DB954;border-color:#1DB954}
 .card .play::after{content:'';width:0;height:0;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
 .card:hover .play::after{border-left-color:#000}
+.card .dl{position:absolute;bottom:6px;right:6px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;z-index:4;text-decoration:none;transition:all .15s}
+.card .dl:hover{background:#1DB954;border-color:#1DB954}
+.card .dl svg{width:14px;height:14px;fill:rgba(255,255,255,.85)}
+.card .dl:hover svg{fill:#000}
 .empty{grid-column:1/-1;text-align:center;color:#666;font-size:14px;padding:60px 20px}
 </style>
 </head>
@@ -292,13 +300,15 @@ SORTS.forEach(s=>{
 
 function makeCard(v){
   const c=document.createElement('div');c.className='card';
+  const fn=v.file.split('/').pop();
   c.innerHTML=`
     <img src="${v.thumbnail}" loading="lazy" alt="">
     <div class="grad"></div>
     <div class="dur">${dur(v.duration)}</div>
     <div class="views">${fmt(v.views)}</div>
     <div class="user">@${v.uploader}</div>
-    <div class="play"></div>`;
+    <div class="play"></div>
+    <a class="dl" href="${v.file}" download="${fn}" onclick="event.stopPropagation()" title="Download"><svg viewBox="0 0 24 24"><path d="M12 3v13m0 0l-5-5m5 5l5-5M5 21h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></a>`;
   c.onclick=()=>toggle(c,v);
   return c;
 }
